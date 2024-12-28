@@ -2,31 +2,53 @@
 /**@author Dead Paul <https://github.com/Dead-Paul/> */
 
 let
-    /**@type {Number}*/ wind = 1,
-    /**@type {Number}*/ fallSpeed = 1;
+    /**
+     * Wind intensity, when bigger then 0 from left to the right side, smaller than 0 from the right to the left side, equals 0 no wind at all. Can be float or int.
+     * @type {Number}
+     */
+     wind = 1,
+    /**
+     * Fall speed of leaves, when bigger then 0 falling down, smaller then 0 flowing up (without respawn). Can be int only.
+     * @type {Number}
+     */
+     fallSpeed = 1;
 
 document.addEventListener('DOMContentLoaded', () => {
     const  
-        /**@type {HTMLElement} */ 
+        /**
+         * Amount of leaves in the space where the animation was placed.
+         * @type {Number}
+         */
+        leavesAmount = 20, 
+        /**
+         * Place (space) where the animation places itself. By default element with id = 'animation-div'.
+         * @type {HTMLElement}
+         */ 
         space = document.getElementById('animation-div') || document.documentElement,
-        /**@type {Object} */ 
+        /**
+         * Parameters of space where animation placed.
+         * @type {Object}
+        */ 
         spaceParams = {
             height : () => space.getBoundingClientRect().height,
             width : () => space.getBoundingClientRect().width
         };
 
+    //Function that changes wind sometimes on random direction.
     setInterval(function() {
         wind = Math.floor(Math.random() * 2) * 2 - 1;
     }, (40 * 1000));
 
-    for (let leaf = 0; leaf < 20; leaf++) {
+    for (let leaf = 0; leaf < leavesAmount; leaf++) {
+        // Function that spawns all leaves into space in random time.
         setTimeout(() => {
             const img = document.createElement('img');
+            // Path to the pictures of leaves and Max number of them (numbered from 0 to 5 by default)
             img.src = `./img/leaves/leaf-${Math.floor(Math.random() * 5)}.png`;
             img.className = 'leaf';
             img.setAttribute('restart', 'true');
 
-            // Next line for editor. causing error if left, therefore after editing comment next string: 
+            // Next line causing error if left, therefore after editing comment next string: 
             // /**@param {HTMLElement} img */
             function mouseOverLeaf(img) {
                 img.setAttribute('isBusy', 'true');
@@ -54,7 +76,10 @@ document.addEventListener('DOMContentLoaded', () => {
             setInterval(leafAnimation, 10, img);
         }, Math.floor(Math.random() * (20 * 1000)));
     };
-    /**@param {HTMLElement} img */
+    /**
+     * Making fall animation for the image from parameter img in the bounds of the space where animation was placed.
+     * @param {HTMLElement} img 
+     */
     function fallAnimation (img) {
         if (img.getAttribute('isBusy') === 'true')
             return;
@@ -87,7 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
             img.setAttribute('restart', 'true');
     };
 
-    /**@param {HTMLElement} img */
+    /**
+     * Adding rotation to the element (image) that was given in parameter.
+     * @param {HTMLElement} img
+     */
     function leafAnimation (img) {
         let /**@type {Number} */
             rotate = img.style.rotate? parseFloat(img.style.rotate) : Math.floor(Math.random() * 90);
