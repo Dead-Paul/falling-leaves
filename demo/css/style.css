@@ -1,0 +1,20 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    background-color: black;
+}
+
+#leaves-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* .leaf {
+    top: -4vh;
+    position: absolute;
+    height: 3vh;
+} */
